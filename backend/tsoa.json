@@ -1,0 +1,17 @@
+{
+  "swagger": {
+    "outputDirectory": "./dist/",
+    "entryFile": "./src/hapi-server.ts",
+    "host": "localhost:4000",
+    "basePath": "/v1"
+  },
+  "routes": {
+    "basePath": "/v1",
+    "entryFile": "./src/hapi-server.ts",
+    "routesDir": "./src",
+    "middleware": "hapi",
+    "middlewareTemplate": "custom-hpi-template.handlebars",
+    "iocModule": "./src/ioc"
+  },
+  "ignore": ["**/node_modules/**"]
+}
