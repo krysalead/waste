@@ -15,19 +15,6 @@ import { IOC_OBJECT_TYPES } from '../constants';
 import { iocContainer } from '../ioc';
 let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
 
-console.log(
-  '----------> Log level services: ',
-  config.getConfig().logging.services
-);
-console.log(
-  '----------> Log level controllers: ',
-  config.getConfig().logging.controllers
-);
-console.log(
-  '----------> Log level general: ',
-  config.getConfig().logging.general
-);
-
 const messageFormatter = (message: LogMessage) => {
   const reqId = get('reqId');
   const date =

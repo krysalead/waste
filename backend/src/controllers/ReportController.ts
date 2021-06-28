@@ -7,7 +7,7 @@ import {
   ListReportResponse,
   PostReportRequest,
   PostReportResponse,
-} from '../models/report';
+} from '../io/report';
 
 const logger = factory.getLogger('controller.report');
 

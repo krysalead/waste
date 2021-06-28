@@ -1,9 +1,11 @@
+/**
+ * Dependency injection definition
+ * All the files that are part of the DI should be included in this file to be visible in the scope of ioc
+ */
 /* service */
-// Core services
-import './core/services/ConfigService';
-// Functional services
+import './services/ConfigService';
 /* Controller */
-import './controller/ReportHandler';
+import './controllers/ReportController';
+import './controllers/ZoneController';
 
-//Need to have it here even if not doing anything with it, it will register globals
-import { iocContainer } from './ioc';
+// Need to have it here even if not doing anything with it, it will register globals

@@ -3,15 +3,502 @@
 	"consumes": [
 		"application/json"
 	],
-	"definitions": {},
+	"definitions": {
+		"Position": {
+			"items": {
+				"type": "number",
+				"format": "double"
+			},
+			"type": "array",
+			"description": "A Position is an array of coordinates.\nhttps://tools.ietf.org/html/rfc7946#section-3.1.1\nArray should contain between two and three elements.\nThe previous GeoJSON specification allowed more elements (e.g., which could be used to represent M values),\nbut the current specification only allows X, Y, and (optionally) Z to be defined."
+		},
+		"GeoJsonTypes": {
+			"type": "string",
+			"enum": [
+				"Point",
+				"MultiPoint",
+				"LineString",
+				"MultiLineString",
+				"Polygon",
+				"MultiPolygon",
+				"GeometryCollection",
+				"Feature",
+				"FeatureCollection"
+			],
+			"x-nullable": false,
+			"description": "The value values for the \"type\" property of GeoJSON Objects.\nhttps://tools.ietf.org/html/rfc7946#section-1.4"
+		},
+		"Point": {
+			"description": "Point geometry object.\nhttps://tools.ietf.org/html/rfc7946#section-3.1.2",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": [
+						"Point"
+					],
+					"x-nullable": false,
+					"description": "Specifies the type of GeoJSON object."
+				},
+				"coordinates": {
+					"$ref": "#/definitions/Position"
+				}
+			},
+			"required": [
+				"type",
+				"coordinates"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"Report": {
+			"properties": {
+				"handled": {
+					"type": "boolean"
+				},
+				"wasteType": {
+					"type": "string"
+				},
+				"location": {
+					"$ref": "#/definitions/Point"
+				}
+			},
+			"required": [
+				"wasteType",
+				"location"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"ListReportResponse": {
+			"properties": {
+				"status": {
+					"type": "number",
+					"format": "double"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/Report"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"status",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"GetReportResponse": {
+			"properties": {
+				"status": {
+					"type": "number",
+					"format": "double"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"$ref": "#/definitions/Report"
+				}
+			},
+			"required": [
+				"status",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"PostReportResponse": {
+			"properties": {
+				"status": {
+					"type": "number",
+					"format": "double"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"$ref": "#/definitions/Report"
+				}
+			},
+			"required": [
+				"status",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"PostReportRequest": {
+			"properties": {
+				"handled": {
+					"type": "boolean"
+				},
+				"wasteType": {
+					"type": "string"
+				},
+				"location": {
+					"$ref": "#/definitions/Point"
+				},
+				"data": {
+					"$ref": "#/definitions/Report"
+				}
+			},
+			"required": [
+				"wasteType",
+				"location",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"Polygon": {
+			"description": "Polygon geometry object.\nhttps://tools.ietf.org/html/rfc7946#section-3.1.6",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": [
+						"Polygon"
+					],
+					"x-nullable": false,
+					"description": "Specifies the type of GeoJSON object."
+				},
+				"coordinates": {
+					"items": {
+						"items": {
+							"$ref": "#/definitions/Position"
+						},
+						"type": "array"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"type",
+				"coordinates"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"Zone": {
+			"properties": {
+				"name": {
+					"type": "string"
+				},
+				"geometry": {
+					"$ref": "#/definitions/Polygon"
+				},
+				"stats": {
+					"properties": {
+						"frequency": {
+							"type": "number",
+							"format": "double"
+						},
+						"wasteType": {
+							"type": "string"
+						}
+					},
+					"required": [
+						"frequency",
+						"wasteType"
+					],
+					"type": "object"
+				}
+			},
+			"required": [
+				"name",
+				"geometry",
+				"stats"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"ListZoneResponse": {
+			"properties": {
+				"status": {
+					"type": "number",
+					"format": "double"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"items": {
+						"$ref": "#/definitions/Zone"
+					},
+					"type": "array"
+				}
+			},
+			"required": [
+				"status",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		},
+		"GetZoneResponse": {
+			"properties": {
+				"status": {
+					"type": "number",
+					"format": "double"
+				},
+				"message": {
+					"type": "string"
+				},
+				"data": {
+					"$ref": "#/definitions/Zone"
+				}
+			},
+			"required": [
+				"status",
+				"message",
+				"data"
+			],
+			"type": "object",
+			"additionalProperties": true
+		}
+	},
 	"info": {
-		"title": "user-management-backend",
+		"title": "waste-backend",
 		"version": "1.0.0",
 		"license": {
 			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/report": {
+			"get": {
+				"operationId": "GetReports",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ListReportResponse"
+						},
+						"examples": {
+							"application/json": {
+								"status": 0,
+								"message": "",
+								"data": [
+									{
+										"handled": false,
+										"wasteType": "cloth",
+										"location": {
+											"type": "Point",
+											"coordinates": [
+												43.6166482,
+												7.0357972
+											]
+										}
+									}
+								]
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			},
+			"post": {
+				"operationId": "AddReport",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/PostReportResponse"
+						},
+						"examples": {
+							"application/json": {
+								"status": 0,
+								"message": "",
+								"data": {
+									"handled": false,
+									"wasteType": "cloth",
+									"location": {
+										"type": "Point",
+										"coordinates": [
+											43.6166482,
+											7.0357972
+										]
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "body",
+						"name": "postReportResponse",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/PostReportRequest"
+						}
+					}
+				]
+			}
+		},
+		"/report/{reportId}": {
+			"get": {
+				"operationId": "GetReport",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/GetReportResponse"
+						},
+						"examples": {
+							"application/json": {
+								"status": 0,
+								"message": "",
+								"data": [
+									{
+										"handled": false,
+										"wasteType": "cloth",
+										"location": {
+											"type": "Point",
+											"coordinates": [
+												43.6166482,
+												7.0357972
+											]
+										}
+									}
+								]
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reportId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
+		},
+		"/stats": {
+			"get": {
+				"operationId": "GetZonesStatistics",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/ListZoneResponse"
+						},
+						"examples": {
+							"application/json": {
+								"status": 0,
+								"message": "",
+								"data": [
+									{
+										"name": "string",
+										"geometry": {
+											"type": "Polygon",
+											"coordinates": [
+												[
+													[
+														43.6166482,
+														7.0357972
+													],
+													[
+														43.6166482,
+														7.0357972
+													]
+												]
+											]
+										},
+										"stats": {
+											"wasteType": "string",
+											"frequency": 1
+										}
+									}
+								]
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/stats/{reportId}": {
+			"get": {
+				"operationId": "GetZoneStatistics",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"schema": {
+							"$ref": "#/definitions/GetZoneResponse"
+						},
+						"examples": {
+							"application/json": {
+								"status": 0,
+								"message": "",
+								"data": {
+									"name": "string",
+									"geometry": {
+										"type": "Polygon",
+										"coordinates": [
+											[
+												[
+													43.6166482,
+													7.0357972
+												],
+												[
+													43.6166482,
+													7.0357972
+												]
+											]
+										]
+									},
+									"stats": {
+										"wasteType": "string",
+										"frequency": 1
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "reportId",
+						"required": true,
+						"type": "string"
+					}
+				]
+			}
 		}
 	},
-	"paths": {},
 	"produces": [
 		"application/json"
 	],

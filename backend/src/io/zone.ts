@@ -1,14 +1,5 @@
 import { IServiceStatus } from '../interfaces/services';
-import { Polygon } from 'geojson';
-
-export interface Zone {
-  name: string;
-  geometry: Polygon;
-  stats: {
-    wasteType: string;
-    frequency: number;
-  };
-}
+import { Zone } from '../../../models/src/models/zone';
 
 export interface GetZoneResponse extends IServiceStatus {
   data: Zone;
