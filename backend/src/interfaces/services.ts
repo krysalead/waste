@@ -6,9 +6,7 @@ export interface IServiceStatus {
 export interface Config {
   server: {
     port: number;
-    name: string;
     cors: string;
-    url: string;
   };
   logging: {
     services: string;

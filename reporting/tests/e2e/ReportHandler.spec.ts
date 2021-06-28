@@ -32,7 +32,7 @@ describe('Report handler ', function () {
   it('adds a report', function (done) {
     supertest(app)
       .post('/')
-      .send({})
+      .send({ wasteType: 'plants', location: [43.6399022, 7.0282453] })
       .expect(200)
       .end(function (err, res) {
         done(err);

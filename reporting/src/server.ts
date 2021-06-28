@@ -1,9 +1,15 @@
 const express = require('express');
+// This allow typeorm to use it from everywhere in this service
+import 'reflect-metadata';
 import { ReportHandler } from './handlers/ReportHandler';
 
 export const server = () => {
   const app = express();
   const handler = new ReportHandler();
+
+  app.use(express.json()); // for parsing application/json
+  app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+
   app.get('/', async (req, res) => {
     const reports = await handler.getReports();
     // need to have a better wrapping with more information about the current request sent from the backend (status, message....)
@@ -17,7 +23,7 @@ export const server = () => {
   });
 
   app.post('/', async (req, res) => {
-    const reports = await handler.addReport({});
+    const reports = await handler.addReport(req.body);
     // need to have a better wrapping with more information about the current request sent from the backend (status, message....)
     res.send({ reports });
   });
