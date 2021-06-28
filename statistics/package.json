@@ -7,6 +7,7 @@
     "clean": "rimraf dist",
     "build": "npm run clean;npm run lint;npm run compile",
     "compile": "tsc --sourceMap false --project tsconfig.json",
+    "watch": "tsc -w  --project tsconfig.json",
     "start": "node .",
     "dev": "nodemon index.js",
     "test": " mocha -r ts-node/register tests/**/*Test.ts --exit",

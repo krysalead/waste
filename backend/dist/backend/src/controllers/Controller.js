@@ -32,3 +32,4 @@ class Controller extends tsoa_1.Controller {
     }
 }
 exports.Controller = Controller;
+//# sourceMappingURL=Controller.js.map

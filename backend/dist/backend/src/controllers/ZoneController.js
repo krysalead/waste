@@ -144,3 +144,4 @@ ZoneController = ZoneController_1 = __decorate([
     __metadata("design:paramtypes", [])
 ], ZoneController);
 exports.ZoneController = ZoneController;
+//# sourceMappingURL=ZoneController.js.map

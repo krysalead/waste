@@ -24,13 +24,13 @@ export const server = () => {
   return {
     start: () => {
       const port = 3000;
-      const server = app.listen(port, () => {
+      const service = app.listen(port, () => {
         console.info(`App listening at http://localhost:${port}`);
       });
       return {
         stop: () => {
           console.info(`Server is closing`);
-          server.close();
+          service.close();
         },
       };
     },

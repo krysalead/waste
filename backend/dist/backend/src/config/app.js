@@ -14,3 +14,4 @@ exports.config = {
         general: process.env.LOGGING_GENERAL || 'Info',
     },
 };
+//# sourceMappingURL=app.js.map

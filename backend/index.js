@@ -1,16 +1,28 @@
-const server = require("./dist/hapi-server");
+const server = require('./dist/backend/src/hapi-server');
 
-process.on("uncaughtException", function (err) {
-  console.error("Caught exception: ", err);
+let runningServer;
+
+process.on('uncaughtException', function (err) {
+  console.error('Caught exception: ', err);
 });
 
-server.init();
+process.on('SIGTERM', () => {
+  console.info('SIGTERM signal received.');
+  runningServer.stop();
+});
+process.on('SIGINT', () => {
+  console.info('SIGINT signal received.');
+  runningServer.stop();
+});
 
-process.on("SIGTERM", () => {
-  console.info("SIGTERM signal received.");
-  server.stop();
-});
-process.on("SIGINT", () => {
-  console.info("SIGINT signal received.");
-  server.stop();
-});
+const main = async () => {
+  try {
+    const serverConfig = await server();
+
+    runningServer = serverConfig.start();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+main();

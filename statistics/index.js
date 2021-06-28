@@ -1,16 +1,16 @@
-const server = require('./dist/server');
+const server = require('./dist/reporting/src/server');
 
 process.on('uncaughtException', function (err) {
   console.error('Caught exception: ', err);
 });
 
-server.init();
+const runninServer = server().start();
 
 process.on('SIGTERM', () => {
   console.info('SIGTERM signal received.');
-  server.stop();
+  runninServer.stop();
 });
 process.on('SIGINT', () => {
   console.info('SIGINT signal received.');
-  server.stop();
+  runninServer.stop();
 });

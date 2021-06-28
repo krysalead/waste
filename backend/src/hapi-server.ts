@@ -1,5 +1,5 @@
 import './iocRegistration';
-const hapi = require('hapi');
+const Hapi = require('@hapi/hapi');
 import * as moment from 'moment';
 import { RegisterRoutes } from './routes';
 import { factory } from './services/LoggingService';
@@ -9,103 +9,83 @@ import { iocContainer } from './ioc';
 import { v1 as uuidv1 } from 'uuid';
 import { set, middleware } from './services/CLSService';
 const logger = factory.getLogger('main.Server');
-const server = new hapi.Server({});
 const CORS = require('hapi-cors-headers');
 
-/**
- * Configuration for request logger
- */
-const goodOptions = {
-  reporters: {
-    EventReporter: [
-      {
-        module: 'good-squeeze',
-        name: 'Squeeze',
-        args: [{ response: '*', request: '*' }],
-      },
-      {
-        module: 'good-console',
-      },
-      'stdout',
-    ],
-  },
+const methodColors = {
+  get: 32,
+  delete: 31,
+  put: 36,
+  post: 33,
+  options: 34,
+};
+
+const corsExtension = (server, config) => {
+  logger.debug(`CORS setup ${config.getConfig().server.cors}`);
+  server.ext('onPreResponse', CORS);
 };
 
 /**
- * Start all the services
+ * Middleware that enhance the request with a unique id
+ * @param request
+ * @param reply
+ * @returns
  */
-const startService = async () => {
-  let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
-  logger.debug(`Service startup ${config.getConfig().server.port}`);
+const traceIdHandler = (request, reply) => {
+  const { req, res } = request.raw;
+  request.id = uuidv1();
+  let color = methodColors[request.method.toLowerCase()];
+  request.log([], `\x1b[1;${color}m${request.method}\x1b[0m ${request.path}`);
+  return middleware(req, res, function () {
+    set('reqId', request.id);
+    reply.continue();
+  });
 };
 
-const init = async () => {
-  let d1 = Date.now();
-  let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
-  logger.debug(`Server setup ${config.getConfig().server.port}`);
-  server.connection({
-    port: config.getConfig().server.port,
-    labels: config.getConfig().server.name,
-  });
-  server.ext('onPreResponse', CORS(config.getConfig().server.cors, logger));
-  // Install logger
-  logger.debug(`Query logger setup`);
-  await server.register({
-    register: require('good'),
-    options: goodOptions,
-  });
+const loggerExtension = async (server, config) => {
+  // hook on request to assign a unique id to be propagated in all the requests
+  logger.debug(`Traceid Setup`);
+  server.ext('onRequest', traceIdHandler);
+};
+
+/**
+ * Register the routes based on the TSOA routes.ts file generated
+ * @param server Hapi server
+ * @param config Application config
+ */
+const routes = (server, config) => {
   // Install core and functionnal routes
   logger.debug(`Register API routes`);
   RegisterRoutes(server);
-  // Start permanent services like database
-  await startService();
-  // Hook on each request to add a unique id for each transaction
-  logger.debug(`Traceid Setup`);
-  server.ext({
-    type: 'onRequest',
-    method: function (request, reply) {
-      const { req, res } = request.raw;
-      request.id = uuidv1();
-      const methodColors = {
-        get: 32,
-        delete: 31,
-        put: 36,
-        post: 33,
-        options: 34,
-      };
-      let color = methodColors[request.method.toLowerCase()];
-      request.log(
-        [],
-        `\x1b[1;${color}m${request.method}\x1b[0m ${request.path}`
-      );
-      return middleware(req, res, function () {
-        set('reqId', request.id);
-        reply.continue();
-      });
-    },
-  });
-  try {
-    logger.debug(`Starting server...`);
-    await server.start();
-    let d2 = Date.now();
-    let diffInSecond = moment(d2).diff(d1);
-    logger.info(`Server running at ${server.info.uri} in ${diffInSecond}ms`);
-  } catch (err) {
-    logger.error('Fail to start server', err);
-    setTimeout(() => {
-      process.exit(1);
-    }, 100);
-  }
 };
 
-const stop = async () => {
-  logger.info('Shutting down server');
-  server.stop({ timeout: 10000 }).then(function (err) {
-    logger.info('hapi server stopped');
-    process.exit(err ? 1 : 0);
+module.exports = async () => {
+  let d1 = Date.now();
+  let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
+  logger.debug(`Server port ${config.getConfig().server.port}`);
+  const server = Hapi.Server({
+    port: config.getConfig().server.port,
+    host: 'localhost',
   });
-};
-module.exports = {
-  init: init,
-  stop: stop,
+
+  corsExtension(server, config);
+  await loggerExtension(server, config);
+  routes(server, config);
+
+  return {
+    start: async () => {
+      logger.debug(`Starting server...`);
+      await server.start();
+      logger.info(`Server started in ${moment(Date.now()).diff(d1)}ms`);
+      logger.info(`Listening at ${server.info.uri}`);
+      return {
+        stop: async () => {
+          logger.info('Shutting down server');
+          server.stop({ timeout: 10000 }).then(function (err) {
+            logger.info('hapi server stopped');
+            process.exit(err ? 1 : 0);
+          });
+        },
+      };
+    },
+  };
 };

@@ -1,7 +1,7 @@
 const express = require('express');
 import { ZoneHandler } from './handlers/ZoneHandler';
 
-const init = () => {
+export const server = () => {
   const app = express();
   const port = 3000;
   const handler = new ZoneHandler();
@@ -15,15 +15,19 @@ const init = () => {
     res.send({ zone });
   });
 
-  app.listen(port, () => {
-    console.info(`App listening at http://localhost:${port}`);
-  });
-};
-const stop = () => {
-  console.info(`Server is stopped`);
-};
-
-module.exports = {
-  init: init,
-  stop: stop,
+  return {
+    start: () => {
+      const port = 3000;
+      const service = app.listen(port, () => {
+        console.info(`App listening at http://localhost:${port}`);
+      });
+      return {
+        stop: () => {
+          console.info(`Server is closing`);
+          service.close();
+        },
+      };
+    },
+    app,
+  };
 };

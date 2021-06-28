@@ -91,6 +91,7 @@ Microservice able to get the statistics on a zone
 - clean: rimraf dist
 - build: npm run clean;npm run lint;npm run compile
 - compile: tsc --sourceMap false --project tsconfig.json
+- watch: compile in incremental watch mode,
 - start: node .
 - dev: nodemon index.js
 - test: mocha -r ts-node/register tests/\*_/_.spec.ts --exit
@@ -107,6 +108,9 @@ We are using kowl to monitor the kafka, only in development
 - Split docker image in 1 for dev and build and one for production, no dev dependencies
 - Mount the DIST folder to the image and sync it for the development
 - Make TSling and TSConfig common to every project
+- Refactor the service to have their common part in a library
+- Add logging mechanism from backend into service
+- Add trace id in every request or message
 
 ## Sources
 

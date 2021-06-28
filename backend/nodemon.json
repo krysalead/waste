@@ -4,9 +4,7 @@
   "execMap": {
     "js": "node"
   },
-  "watch": [
-    "dist/"
-  ],
+  "watch": ["dist/", "index.js"],
   "env": {
     "NODE_ENV": "development"
   },
