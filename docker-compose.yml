@@ -12,9 +12,6 @@ services:
       - ./data/postgres:/data/postgres
     ports:
       - '5432:5432'
-    networks:
-      - postgres
-
   zoo1:
     image: zookeeper:3.4.9
     hostname: zoo1
@@ -60,6 +57,9 @@ services:
       - ./backend/dist:/usr/app/dist
     environment:
       TASK_NAME: '${APP_MODE}'
+    depends_on:
+      - reporting
+      - statistics
   reporting:
     deploy:
       replicas: 1
@@ -75,6 +75,8 @@ services:
       - ./reporting/dist:/usr/app/dist
     environment:
       TASK_NAME: '${APP_MODE:-prod}'
+    depends_on:
+      - postgres
   statistics:
     deploy:
       replicas: 1
@@ -90,6 +92,15 @@ services:
       - ./statistics/dist:/usr/app/dist
     environment:
       TASK_NAME: '${APP_MODE:-prod}'
-networks:
-  postgres:
-    driver: bridge
+    depends_on:
+      - postgres
+  datafeed:
+    container_name: datafeed_container
+    build:
+      context: ./models
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-%4CR1DBPa55eW0rd$}
+      DB_HOST: host.docker.internal
+      DB_PORT: 5432
