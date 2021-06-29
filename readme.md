@@ -47,6 +47,12 @@ A single component
 docker-compose build backend
 ```
 
+or
+
+```
+docker build -t --build-arg COMPONENT=backend .
+```
+
 ## Running Application
 
 Production mode
