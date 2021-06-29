@@ -4,8 +4,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean;npm run lint;npm run routes;npm run compile",
-    "compile": "tsc --sourceMap false --project tsconfig.json",
+    "build": "npm run clean;npm run lint;npm run compile",
+    "compile": "npm run routes;tsc --sourceMap false --project tsconfig.json",
     "watch": "tsc -w  --project tsconfig.json",
     "e2e": "LOGGING_GENERAL=Debug mocha -r ts-node/register tests/e2e/**/*.spec.ts --exit",
     "tsoa-all": "npm run swagger; npm run routes",
