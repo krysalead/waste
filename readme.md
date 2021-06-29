@@ -50,7 +50,7 @@ docker-compose build backend
 or
 
 ```
-docker build -t --build-arg COMPONENT=backend .
+docker build -t backend --build-arg COMPONENT=backend .
 ```
 
 ## Running Application
