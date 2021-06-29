@@ -14,7 +14,7 @@ services:
     restart: on-failure
     hostname: kowl
     volumes:
-      - ./config/kowl.yaml:/etc/kowl/config.yaml
+      - ./config/kowl/:/etc/kowl/
     ports:
       - '8080:8080'
     entrypoint: ./kowl --config.filepath=/etc/kowl/config.yaml

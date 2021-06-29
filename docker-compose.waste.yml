@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  backend:
+    deploy:
+      replicas: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        COMPONENT: backend
+    ports:
+      - '4000:4000'
+    volumes:
+      - ./backend/dist:/usr/app/dist
+    environment:
+      TASK_NAME: '${APP_MODE}'
+    depends_on:
+      - reporting
+      - statistics
+  reporting:
+    deploy:
+      replicas: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        COMPONENT: reporting
+        PORT: 3000
+    ports:
+      - '3001:3000'
+    volumes:
+      - ./reporting/dist:/usr/app/dist
+    environment:
+      TASK_NAME: '${APP_MODE:-prod}'
+    depends_on:
+      - postgres
+  statistics:
+    deploy:
+      replicas: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        COMPONENT: statistics
+        PORT: 3000
+    ports:
+      - '3002:3000'
+    volumes:
+      - ./statistics/dist:/usr/app/dist
+    environment:
+      TASK_NAME: '${APP_MODE:-prod}'
+    depends_on:
+      - postgres
+  datafeed:
+    container_name: datafeed_container
+    build:
+      context: ./models
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-%4CR1DBPa55eW0rd$}
+      DB_HOST: host.docker.internal
+      DB_PORT: 5432
