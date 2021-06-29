@@ -25,11 +25,13 @@ For local development
 ### Access to PgAdmin:
 
 - **URL:** `http://localhost:5050`
-- **Username:** pgadmin4@pgadmin.org
+- **Username:** pgadmin4@acri.org
 - **Password:** %4CR1Adm1n$
 - Add a new server in PgAdmin with the above information, take the internal url as address.
 
 ## Kafka
+
+TODO add the URL to the kowl and the information to connect to
 
 ## Building Application
 
