@@ -3,8 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Controller = void 0;
 const tsoa_1 = require("tsoa");
 class Controller extends tsoa_1.Controller {
-    constructor(logger) {
-        super();
+    setLogger(logger) {
         this.logger = logger;
     }
     /**
@@ -32,4 +31,3 @@ class Controller extends tsoa_1.Controller {
     }
 }
 exports.Controller = Controller;
-//# sourceMappingURL=Controller.js.map

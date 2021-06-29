@@ -9,4 +9,3 @@ exports.CORE_ERROR_CODES = {
     SERVICE_FAILURE: -2,
     WRONG_PARAMETER: -1,
 };
-//# sourceMappingURL=constants.js.map

@@ -1,5 +1,5 @@
 import './iocRegistration';
-const Hapi = require('@hapi/hapi');
+const hapi = require('@hapi/hapi');
 import * as moment from 'moment';
 import { RegisterRoutes } from './routes';
 import { factory } from './services/LoggingService';
@@ -76,13 +76,13 @@ module.exports = async () => {
   let d1 = Date.now();
   let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
   logger.debug(`Server port ${config.getConfig().server.port}`);
-  const server = Hapi.Server({
+  const server = hapi.Server({
     port: config.getConfig().server.port,
     host: 'localhost',
   });
 
   // uncomment if we need to have a UI connected
-  //corsExtension(server, config);
+  // corsExtension(server, config);
   // await loggerExtension(server, config);
   routes(server, config);
 

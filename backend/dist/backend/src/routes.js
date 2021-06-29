@@ -13,113 +13,149 @@ const ioc_1 = require("./ioc");
 const boom_1 = require("@hapi/boom");
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 const models = {
-    "Position": {
-        "dataType": "refAlias",
-        "type": { "dataType": "array", "array": { "dataType": "double" }, "validators": {} },
+    Position: {
+        dataType: 'refAlias',
+        type: { dataType: 'array', array: { dataType: 'double' }, validators: {} },
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "GeoJsonTypes": {
-        "dataType": "refAlias",
-        "type": { "dataType": "union", "subSchemas": [{ "dataType": "enum", "enums": ["Point"] }, { "dataType": "enum", "enums": ["MultiPoint"] }, { "dataType": "enum", "enums": ["LineString"] }, { "dataType": "enum", "enums": ["MultiLineString"] }, { "dataType": "enum", "enums": ["Polygon"] }, { "dataType": "enum", "enums": ["MultiPolygon"] }, { "dataType": "enum", "enums": ["GeometryCollection"] }, { "dataType": "enum", "enums": ["Feature"] }, { "dataType": "enum", "enums": ["FeatureCollection"] }], "validators": {} },
-    },
-    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Point": {
-        "dataType": "refObject",
-        "properties": {
-            "type": { "dataType": "enum", "enums": ["Point"], "required": true },
-            "coordinates": { "ref": "Position", "required": true },
+    GeoJsonTypes: {
+        dataType: 'refAlias',
+        type: {
+            dataType: 'union',
+            subSchemas: [
+                { dataType: 'enum', enums: ['Point'] },
+                { dataType: 'enum', enums: ['MultiPoint'] },
+                { dataType: 'enum', enums: ['LineString'] },
+                { dataType: 'enum', enums: ['MultiLineString'] },
+                { dataType: 'enum', enums: ['Polygon'] },
+                { dataType: 'enum', enums: ['MultiPolygon'] },
+                { dataType: 'enum', enums: ['GeometryCollection'] },
+                { dataType: 'enum', enums: ['Feature'] },
+                { dataType: 'enum', enums: ['FeatureCollection'] },
+            ],
+            validators: {},
         },
-        "additionalProperties": true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Report": {
-        "dataType": "refObject",
-        "properties": {
-            "handled": { "dataType": "boolean" },
-            "wasteType": { "dataType": "string", "required": true },
-            "location": { "ref": "Point", "required": true },
+    Point: {
+        dataType: 'refObject',
+        properties: {
+            type: { dataType: 'enum', enums: ['Point'], required: true },
+            coordinates: { ref: 'Position', required: true },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListReportResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "status": { "dataType": "double", "required": true },
-            "message": { "dataType": "string", "required": true },
-            "data": { "dataType": "array", "array": { "dataType": "refObject", "ref": "Report" }, "required": true },
+    Report: {
+        dataType: 'refObject',
+        properties: {
+            handled: { dataType: 'boolean' },
+            wasteType: { dataType: 'string', required: true },
+            location: { ref: 'Point', required: true },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "GetReportResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "status": { "dataType": "double", "required": true },
-            "message": { "dataType": "string", "required": true },
-            "data": { "ref": "Report", "required": true },
+    ListReportResponse: {
+        dataType: 'refObject',
+        properties: {
+            status: { dataType: 'double', required: true },
+            message: { dataType: 'string', required: true },
+            data: {
+                dataType: 'array',
+                array: { dataType: 'refObject', ref: 'Report' },
+                required: true,
+            },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PostReportResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "status": { "dataType": "double", "required": true },
-            "message": { "dataType": "string", "required": true },
-            "data": { "ref": "Report", "required": true },
+    GetReportResponse: {
+        dataType: 'refObject',
+        properties: {
+            status: { dataType: 'double', required: true },
+            message: { dataType: 'string', required: true },
+            data: { ref: 'Report', required: true },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "PostReportRequest": {
-        "dataType": "refObject",
-        "properties": {
-            "handled": { "dataType": "boolean" },
-            "wasteType": { "dataType": "string", "required": true },
-            "location": { "ref": "Point", "required": true },
-            "data": { "ref": "Report", "required": true },
+    PostReportResponse: {
+        dataType: 'refObject',
+        properties: {
+            status: { dataType: 'double', required: true },
+            message: { dataType: 'string', required: true },
+            data: { ref: 'Report', required: true },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Polygon": {
-        "dataType": "refObject",
-        "properties": {
-            "type": { "dataType": "enum", "enums": ["Polygon"], "required": true },
-            "coordinates": { "dataType": "array", "array": { "dataType": "array", "array": { "dataType": "refAlias", "ref": "Position" } }, "required": true },
+    PostReportRequest: {
+        dataType: 'refObject',
+        properties: {
+            handled: { dataType: 'boolean' },
+            wasteType: { dataType: 'string', required: true },
+            location: { ref: 'Point', required: true },
+            data: { ref: 'Report', required: true },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "Zone": {
-        "dataType": "refObject",
-        "properties": {
-            "name": { "dataType": "string", "required": true },
-            "geometry": { "ref": "Polygon", "required": true },
-            "stats": { "dataType": "nestedObjectLiteral", "nestedProperties": { "frequency": { "dataType": "double", "required": true }, "wasteType": { "dataType": "string", "required": true } }, "required": true },
+    Polygon: {
+        dataType: 'refObject',
+        properties: {
+            type: { dataType: 'enum', enums: ['Polygon'], required: true },
+            coordinates: {
+                dataType: 'array',
+                array: {
+                    dataType: 'array',
+                    array: { dataType: 'refAlias', ref: 'Position' },
+                },
+                required: true,
+            },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "ListZoneResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "status": { "dataType": "double", "required": true },
-            "message": { "dataType": "string", "required": true },
-            "data": { "dataType": "array", "array": { "dataType": "refObject", "ref": "Zone" }, "required": true },
+    Zone: {
+        dataType: 'refObject',
+        properties: {
+            name: { dataType: 'string', required: true },
+            geometry: { ref: 'Polygon', required: true },
+            stats: {
+                dataType: 'nestedObjectLiteral',
+                nestedProperties: {
+                    frequency: { dataType: 'double', required: true },
+                    wasteType: { dataType: 'string', required: true },
+                },
+                required: true,
+            },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
     },
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-    "GetZoneResponse": {
-        "dataType": "refObject",
-        "properties": {
-            "status": { "dataType": "double", "required": true },
-            "message": { "dataType": "string", "required": true },
-            "data": { "ref": "Zone", "required": true },
+    ListZoneResponse: {
+        dataType: 'refObject',
+        properties: {
+            status: { dataType: 'double', required: true },
+            message: { dataType: 'string', required: true },
+            data: {
+                dataType: 'array',
+                array: { dataType: 'refObject', ref: 'Zone' },
+                required: true,
+            },
         },
-        "additionalProperties": true,
+        additionalProperties: true,
+    },
+    // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
+    GetZoneResponse: {
+        dataType: 'refObject',
+        properties: {
+            status: { dataType: 'double', required: true },
+            message: { dataType: 'string', required: true },
+            data: { ref: 'Zone', required: true },
+        },
+        additionalProperties: true,
     },
 };
 const validationService = new runtime_1.ValidationService(models);
@@ -153,15 +189,25 @@ function RegisterRoutes(server) {
                     };
                     throw boomErr;
                 }
-                const container = typeof ioc_1.iocContainer === 'function' ? ioc_1.iocContainer(request) : ioc_1.iocContainer;
-                const controller = container.get(ReportController_1.ReportController);
-                if (typeof controller['setStatus'] === 'function') {
-                    controller.setStatus(undefined);
+                console.log('here');
+                const container = typeof ioc_1.iocContainer === 'function'
+                    ? ioc_1.iocContainer(request)
+                    : ioc_1.iocContainer;
+                console.log('here');
+                try {
+                    const controller = container.get(ReportController_1.ReportController);
+                    if (typeof controller['setStatus'] === 'function') {
+                        controller.setStatus(undefined);
+                    }
+                    const promise = controller.getReports.apply(controller, validatedArgs);
+                    console.log('here');
+                    return promiseHandler(controller, promise, request, undefined, h);
                 }
-                const promise = controller.getReports.apply(controller, validatedArgs);
-                return promiseHandler(controller, promise, request, undefined, h);
-            }
-        }
+                catch (e) {
+                    console.error(e);
+                }
+            },
+        },
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     server.route({
@@ -171,7 +217,12 @@ function RegisterRoutes(server) {
             pre: [],
             handler: function ReportController_getReport(request, h) {
                 const args = {
-                    reportId: { "in": "path", "name": "reportId", "required": true, "dataType": "string" },
+                    reportId: {
+                        in: 'path',
+                        name: 'reportId',
+                        required: true,
+                        dataType: 'string',
+                    },
                 };
                 let validatedArgs = [];
                 try {
@@ -190,15 +241,17 @@ function RegisterRoutes(server) {
                     };
                     throw boomErr;
                 }
-                const container = typeof ioc_1.iocContainer === 'function' ? ioc_1.iocContainer(request) : ioc_1.iocContainer;
+                const container = typeof ioc_1.iocContainer === 'function'
+                    ? ioc_1.iocContainer(request)
+                    : ioc_1.iocContainer;
                 const controller = container.get(ReportController_1.ReportController);
                 if (typeof controller['setStatus'] === 'function') {
                     controller.setStatus(undefined);
                 }
                 const promise = controller.getReport.apply(controller, validatedArgs);
                 return promiseHandler(controller, promise, request, undefined, h);
-            }
-        }
+            },
+        },
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     server.route({
@@ -208,7 +261,12 @@ function RegisterRoutes(server) {
             pre: [],
             handler: function ReportController_addReport(request, h) {
                 const args = {
-                    postReportResponse: { "in": "body", "name": "postReportResponse", "required": true, "ref": "PostReportRequest" },
+                    postReportResponse: {
+                        in: 'body',
+                        name: 'postReportResponse',
+                        required: true,
+                        ref: 'PostReportRequest',
+                    },
                 };
                 let validatedArgs = [];
                 try {
@@ -227,15 +285,17 @@ function RegisterRoutes(server) {
                     };
                     throw boomErr;
                 }
-                const container = typeof ioc_1.iocContainer === 'function' ? ioc_1.iocContainer(request) : ioc_1.iocContainer;
+                const container = typeof ioc_1.iocContainer === 'function'
+                    ? ioc_1.iocContainer(request)
+                    : ioc_1.iocContainer;
                 const controller = container.get(ReportController_1.ReportController);
                 if (typeof controller['setStatus'] === 'function') {
                     controller.setStatus(undefined);
                 }
                 const promise = controller.addReport.apply(controller, validatedArgs);
                 return promiseHandler(controller, promise, request, undefined, h);
-            }
-        }
+            },
+        },
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     server.route({
@@ -262,15 +322,17 @@ function RegisterRoutes(server) {
                     };
                     throw boomErr;
                 }
-                const container = typeof ioc_1.iocContainer === 'function' ? ioc_1.iocContainer(request) : ioc_1.iocContainer;
+                const container = typeof ioc_1.iocContainer === 'function'
+                    ? ioc_1.iocContainer(request)
+                    : ioc_1.iocContainer;
                 const controller = container.get(ZoneController_1.ZoneController);
                 if (typeof controller['setStatus'] === 'function') {
                     controller.setStatus(undefined);
                 }
                 const promise = controller.getZonesStatistics.apply(controller, validatedArgs);
                 return promiseHandler(controller, promise, request, undefined, h);
-            }
-        }
+            },
+        },
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     server.route({
@@ -280,7 +342,12 @@ function RegisterRoutes(server) {
             pre: [],
             handler: function ZoneController_getZoneStatistics(request, h) {
                 const args = {
-                    reportId: { "in": "path", "name": "reportId", "required": true, "dataType": "string" },
+                    reportId: {
+                        in: 'path',
+                        name: 'reportId',
+                        required: true,
+                        dataType: 'string',
+                    },
                 };
                 let validatedArgs = [];
                 try {
@@ -299,20 +366,22 @@ function RegisterRoutes(server) {
                     };
                     throw boomErr;
                 }
-                const container = typeof ioc_1.iocContainer === 'function' ? ioc_1.iocContainer(request) : ioc_1.iocContainer;
+                const container = typeof ioc_1.iocContainer === 'function'
+                    ? ioc_1.iocContainer(request)
+                    : ioc_1.iocContainer;
                 const controller = container.get(ZoneController_1.ZoneController);
                 if (typeof controller['setStatus'] === 'function') {
                     controller.setStatus(undefined);
                 }
                 const promise = controller.getZoneStatistics.apply(controller, validatedArgs);
                 return promiseHandler(controller, promise, request, undefined, h);
-            }
-        }
+            },
+        },
     });
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     function isController(object) {
-        return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
+        return ('getHeaders' in object && 'getStatus' in object && 'setStatus' in object);
     }
     function promiseHandler(controllerObj, promise, request, successStatus, h) {
         return Promise.resolve(promise)
@@ -325,7 +394,6 @@ function RegisterRoutes(server) {
                 statusCode = controllerObj.getStatus() || statusCode;
             }
             return returnHandler(h, statusCode, data, headers);
-            ;
         })
             .catch((error) => {
             if (boom_1.isBoom(error)) {
@@ -347,7 +415,7 @@ function RegisterRoutes(server) {
         }
         let response = data !== null && data !== undefined
             ? h.response(data).code(200)
-            : h.response("").code(204);
+            : h.response('').code(204);
         Object.keys(headers).forEach((name) => {
             response.header(name, headers[name]);
         });
@@ -360,23 +428,23 @@ function RegisterRoutes(server) {
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
     function getValidatedArgs(args, request, h) {
         const errorFields = {};
-        const values = Object.keys(args).map(key => {
+        const values = Object.keys(args).map((key) => {
             const name = args[key].name;
             switch (args[key].in) {
                 case 'request':
                     return request;
                 case 'query':
-                    return validationService.ValidateParam(args[key], request.query[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.query[name], name, errorFields, undefined, { noImplicitAdditionalProperties: 'ignore' });
                 case 'path':
-                    return validationService.ValidateParam(args[key], request.params[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.params[name], name, errorFields, undefined, { noImplicitAdditionalProperties: 'ignore' });
                 case 'header':
-                    return validationService.ValidateParam(args[key], request.headers[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.headers[name], name, errorFields, undefined, { noImplicitAdditionalProperties: 'ignore' });
                 case 'body':
-                    return validationService.ValidateParam(args[key], request.payload, name, errorFields, undefined, { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.payload, name, errorFields, undefined, { noImplicitAdditionalProperties: 'ignore' });
                 case 'body-prop':
-                    return validationService.ValidateParam(args[key], request.payload[name], name, errorFields, 'body.', { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.payload[name], name, errorFields, 'body.', { noImplicitAdditionalProperties: 'ignore' });
                 case 'formData':
-                    return validationService.ValidateParam(args[key], request.payload[name], name, errorFields, undefined, { "noImplicitAdditionalProperties": "ignore" });
+                    return validationService.ValidateParam(args[key], request.payload[name], name, errorFields, undefined, { noImplicitAdditionalProperties: 'ignore' });
                 case 'res':
                     return responder(h);
             }
@@ -392,9 +460,7 @@ function RegisterRoutes(server) {
             returnHandler(h, status, data, headers);
         };
     }
-    ;
     // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 }
 exports.RegisterRoutes = RegisterRoutes;
 // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-//# sourceMappingURL=routes.js.map

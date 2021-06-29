@@ -10,4 +10,3 @@ require("./services/ConfigService");
 require("./controllers/ReportController");
 require("./controllers/ZoneController");
 // Need to have it here even if not doing anything with it, it will register globals
-//# sourceMappingURL=iocRegistration.js.map

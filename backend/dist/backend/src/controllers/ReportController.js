@@ -27,31 +27,40 @@ const Controller_1 = require("./Controller");
 const ioc_1 = require("../ioc");
 const tsoa_1 = require("tsoa");
 const LoggingService_1 = require("../services/LoggingService");
+const axios_1 = require("axios");
 const logger = LoggingService_1.factory.getLogger('controller.report');
+const app_1 = require("../config/app");
+const constants_1 = require("../constants");
 let ReportController = ReportController_1 = class ReportController extends Controller_1.Controller {
     constructor() {
-        super(logger);
+        super();
+        this.setLogger(logger);
     }
     getReports() {
         return __awaiter(this, void 0, void 0, function* () {
-            return {
-                status: 0,
-                message: '',
-                data: [
-                    {
-                        handled: false,
-                        wasteType: 'cloth',
-                        location: {
-                            type: 'Point',
-                            coordinates: [43.6166482, 7.0357972],
-                        },
-                    },
-                ],
-            };
+            logger.info('getReports');
+            try {
+                // Get the reports from the reports Microservice
+                const response = yield axios_1.default.get(`${app_1.config.service.reporting}/`);
+                return {
+                    status: constants_1.CORE_ERROR_CODES.REQUEST_OK,
+                    message: '',
+                    data: response.data,
+                };
+            }
+            catch (error) {
+                logger.error('Failed to get the reports', error);
+                return {
+                    status: constants_1.CORE_ERROR_CODES.SERVICE_FAILURE,
+                    message: error,
+                    data: [],
+                };
+            }
         });
     }
     getReport(reportId) {
         return __awaiter(this, void 0, void 0, function* () {
+            logger.info('getReport');
             return {
                 status: 0,
                 message: '',
@@ -68,6 +77,7 @@ let ReportController = ReportController_1 = class ReportController extends Contr
     }
     addReport(postReportResponse) {
         return __awaiter(this, void 0, void 0, function* () {
+            logger.info('addReport');
             return {
                 status: 0,
                 message: '',
@@ -149,4 +159,3 @@ ReportController = ReportController_1 = __decorate([
     __metadata("design:paramtypes", [])
 ], ReportController);
 exports.ReportController = ReportController;
-//# sourceMappingURL=ReportController.js.map

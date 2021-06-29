@@ -30,7 +30,8 @@ const LoggingService_1 = require("../services/LoggingService");
 const logger = LoggingService_1.factory.getLogger('controller.zone');
 let ZoneController = ZoneController_1 = class ZoneController extends Controller_1.Controller {
     constructor() {
-        super(logger);
+        super();
+        this.setLogger(logger);
     }
     getZonesStatistics() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -144,4 +145,3 @@ ZoneController = ZoneController_1 = __decorate([
     __metadata("design:paramtypes", [])
 ], ZoneController);
 exports.ZoneController = ZoneController;
-//# sourceMappingURL=ZoneController.js.map

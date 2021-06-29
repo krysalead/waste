@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 require("./iocRegistration");
-const Hapi = require('@hapi/hapi');
+const hapi = require('@hapi/hapi');
 const moment = require("moment");
 const routes_1 = require("./routes");
 const LoggingService_1 = require("./services/LoggingService");
@@ -27,6 +27,11 @@ const methodColors = {
     post: 33,
     options: 34,
 };
+/**
+ * Allows cors in request to be called from a UI on a different domain
+ * @param server
+ * @param config
+ */
 const corsExtension = (server, config) => {
     logger.debug(`CORS setup ${config.getConfig().server.cors}`);
     server.ext('onPreResponse', CORS);
@@ -62,33 +67,53 @@ const routes = (server, config) => {
     logger.debug(`Register API routes`);
     routes_1.RegisterRoutes(server);
 };
+const stopServerFn = (server) => {
+    return () => __awaiter(void 0, void 0, void 0, function* () {
+        logger.info('Shutting down server');
+        server.stop({ timeout: 10000 }).then(function (err) {
+            logger.info('hapi server stopped');
+        });
+    });
+};
 module.exports = () => __awaiter(void 0, void 0, void 0, function* () {
     let d1 = Date.now();
     let config = ioc_1.iocContainer.get(constants_1.IOC_OBJECT_TYPES.ConfigService);
     logger.debug(`Server port ${config.getConfig().server.port}`);
-    const server = Hapi.Server({
+    const server = hapi.Server({
         port: config.getConfig().server.port,
         host: 'localhost',
     });
-    corsExtension(server, config);
-    yield loggerExtension(server, config);
+    // uncomment if we need to have a UI connected
+    // corsExtension(server, config);
+    // await loggerExtension(server, config);
     routes(server, config);
+    /** return an object with possible action like a chain of command */
     return {
+        /**
+         * This method will only initialised the server without having it running for real
+         * @returns hapi server
+         */
+        init: () => __awaiter(void 0, void 0, void 0, function* () {
+            logger.info(`Initialising server...`);
+            yield server.initialize();
+            return {
+                stop: stopServerFn(server),
+                server,
+            };
+        }),
+        /**
+         * This method is starting effectively the server
+         * @returns
+         */
         start: () => __awaiter(void 0, void 0, void 0, function* () {
             logger.debug(`Starting server...`);
             yield server.start();
             logger.info(`Server started in ${moment(Date.now()).diff(d1)}ms`);
             logger.info(`Listening at ${server.info.uri}`);
             return {
-                stop: () => __awaiter(void 0, void 0, void 0, function* () {
-                    logger.info('Shutting down server');
-                    server.stop({ timeout: 10000 }).then(function (err) {
-                        logger.info('hapi server stopped');
-                        process.exit(err ? 1 : 0);
-                    });
-                }),
+                stop: stopServerFn(server),
+                server,
             };
         }),
     };
 });
-//# sourceMappingURL=hapi-server.js.map

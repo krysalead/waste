@@ -10,7 +10,8 @@ const logger = factory.getLogger('controller.zone');
 @provide(ZoneController)
 export class ZoneController extends Controller {
   constructor() {
-    super(logger);
+    super();
+    this.setLogger(logger);
   }
 
   @Get()

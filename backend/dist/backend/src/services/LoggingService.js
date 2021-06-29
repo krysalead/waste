@@ -62,4 +62,3 @@ const options = new typescript_logging_1.LoggerFactoryOptions()
 // Create a named loggerfactory and pass in the options and export the factory.
 // Named is since version 0.2.+ (it's recommended for future usage)
 exports.factory = typescript_logging_1.LFService.createNamedLoggerFactory('LoggerFactory', options);
-//# sourceMappingURL=LoggingService.js.map

@@ -21,4 +21,3 @@ exports.provideSingleton = function (identifier) {
         .inSingletonScope()
         .done();
 };
-//# sourceMappingURL=ioc.js.map
