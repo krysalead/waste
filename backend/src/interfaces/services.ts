@@ -8,6 +8,10 @@ export interface Config {
     port: number;
     cors: string;
   };
+  service: {
+    reporting: string;
+    statistics: string;
+  };
   logging: {
     services: string;
     controllers: string;

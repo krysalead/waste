@@ -3,7 +3,6 @@ import { ZoneHandler } from './handlers/ZoneHandler';
 
 export const server = () => {
   const app = express();
-  const port = 3000;
   const handler = new ZoneHandler();
   app.get('/', (req, res) => {
     const zones = handler.getZonesStats();

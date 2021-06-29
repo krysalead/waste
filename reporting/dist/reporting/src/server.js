@@ -9,42 +9,45 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.server = void 0;
 const express = require('express');
+// This allow typeorm to use it from everywhere in this service
+require("reflect-metadata");
 const ReportHandler_1 = require("./handlers/ReportHandler");
-const init = () => {
+const server = () => {
     const app = express();
     const handler = new ReportHandler_1.ReportHandler();
+    app.use(express.json()); // for parsing application/json
+    app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
     app.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const reports = yield handler.getReports();
         // need to have a better wrapping with more information about the current request sent from the backend (status, message....)
         res.send({ reports });
     }));
-    app.get('/{id}', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const reports = yield handler.getReport('');
+    app.get('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const reports = yield handler.getReport(req.params.id);
         // need to have a better wrapping with more information about the current request sent from the backend (status, message....)
         res.send({ reports });
     }));
     app.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const reports = yield handler.addReport({});
+        const reports = yield handler.addReport(req.body);
         // need to have a better wrapping with more information about the current request sent from the backend (status, message....)
         res.send({ reports });
     }));
     return {
         start: () => {
             const port = 3000;
-            const server = app.listen(port, () => {
+            const service = app.listen(port, () => {
                 console.info(`App listening at http://localhost:${port}`);
             });
             return {
                 stop: () => {
                     console.info(`Server is closing`);
-                    server.close();
+                    service.close();
                 },
             };
         },
         app,
     };
 };
-module.exports = {
-    init: init,
-};
+exports.server = server;

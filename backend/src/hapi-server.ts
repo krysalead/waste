@@ -19,6 +19,11 @@ const methodColors = {
   options: 34,
 };
 
+/**
+ * Allows cors in request to be called from a UI on a different domain
+ * @param server
+ * @param config
+ */
 const corsExtension = (server, config) => {
   logger.debug(`CORS setup ${config.getConfig().server.cors}`);
   server.ext('onPreResponse', CORS);
@@ -58,6 +63,15 @@ const routes = (server, config) => {
   RegisterRoutes(server);
 };
 
+const stopServerFn = (server) => {
+  return async () => {
+    logger.info('Shutting down server');
+    server.stop({ timeout: 10000 }).then(function (err) {
+      logger.info('hapi server stopped');
+    });
+  };
+};
+
 module.exports = async () => {
   let d1 = Date.now();
   let config: IConfigService = iocContainer.get(IOC_OBJECT_TYPES.ConfigService);
@@ -67,24 +81,37 @@ module.exports = async () => {
     host: 'localhost',
   });
 
-  corsExtension(server, config);
-  await loggerExtension(server, config);
+  // uncomment if we need to have a UI connected
+  //corsExtension(server, config);
+  // await loggerExtension(server, config);
   routes(server, config);
 
+  /** return an object with possible action like a chain of command */
   return {
+    /**
+     * This method will only initialised the server without having it running for real
+     * @returns hapi server
+     */
+    init: async () => {
+      logger.info(`Initialising server...`);
+      await server.initialize();
+      return {
+        stop: stopServerFn(server),
+        server,
+      };
+    },
+    /**
+     * This method is starting effectively the server
+     * @returns
+     */
     start: async () => {
       logger.debug(`Starting server...`);
       await server.start();
       logger.info(`Server started in ${moment(Date.now()).diff(d1)}ms`);
       logger.info(`Listening at ${server.info.uri}`);
       return {
-        stop: async () => {
-          logger.info('Shutting down server');
-          server.stop({ timeout: 10000 }).then(function (err) {
-            logger.info('hapi server stopped');
-            process.exit(err ? 1 : 0);
-          });
-        },
+        stop: stopServerFn(server),
+        server,
       };
     },
   };

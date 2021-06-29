@@ -3,8 +3,9 @@ import { Logger } from 'typescript-logging';
 import { IServiceStatus } from '../interfaces/services';
 
 export class Controller extends tsoaController {
-  constructor(private logger: Logger) {
-    super();
+  logger: Logger;
+  setLogger(logger: Logger) {
+    this.logger = logger;
   }
 
   /**

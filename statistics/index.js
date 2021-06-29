@@ -1,4 +1,4 @@
-const server = require('./dist/reporting/src/server');
+const { server } = require('./dist/statistics/src/server');
 
 process.on('uncaughtException', function (err) {
   console.error('Caught exception: ', err);

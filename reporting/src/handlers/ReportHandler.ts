@@ -28,7 +28,7 @@ export class ReportHandler {
     reportEntity.location = report.location;
     // Store the entity
     let storedReport = await databaseConnection.manager.save(reportEntity);
-    console.log('Report has been saved. Report id is', storedReport.id);
+    console.info('Report has been saved. Report id is', storedReport.id);
     return storedReport;
   }
 }

@@ -125,6 +125,7 @@ We are using kowl to monitor the kafka, only in development
 - [Hapi for the backend](https://hapi.dev/)
 - [Error management](https://hapi.dev/module/boom/)
 - [Open API](https://tsoa-community.github.io/docs/introduction.html#goal)
+- [ORM to access DB](https://typeorm.io/#/)
 
 ## Tips
 

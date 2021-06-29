@@ -7,7 +7,7 @@
     "build": "npm run clean;npm run lint;npm run routes;npm run compile",
     "compile": "tsc --sourceMap false --project tsconfig.json",
     "watch": "tsc -w  --project tsconfig.json",
-    "e2e": " mocha -r ts-node/register e2e/**/*Test.ts --exit",
+    "e2e": "LOGGING_GENERAL=Debug mocha -r ts-node/register tests/e2e/**/*.spec.ts --exit",
     "tsoa-all": "npm run swagger; npm run routes",
     "swagger": "tsoa spec",
     "routes": "tsoa routes",
@@ -45,9 +45,11 @@
     "waste-models": "file:../models"
   },
   "devDependencies": {
+    "@hapi/code": "^8.0.3",
+    "@hapi/lab": "^24.2.1",
     "@types/chai": "4.1.4",
     "@types/hapi": "16.1.15",
-    "@types/mocha": "^5.2.3",
+    "@types/mocha": "^5.2.7",
     "@types/request": "^2.48.4",
     "@types/uuid": "3.4.3",
     "chai": "4.1.2",

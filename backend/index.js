@@ -19,7 +19,7 @@ const main = async () => {
   try {
     const serverConfig = await server();
 
-    runningServer = serverConfig.start();
+    runningServer = await serverConfig.start();
   } catch (error) {
     console.error(error);
   }
