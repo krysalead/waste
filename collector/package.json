@@ -1,0 +1,38 @@
+{
+  "name": "waste-collector-mgr",
+  "version": "1.0.0",
+  "description": "Microservice handeling access to the statistics",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean;npm run lint;npm run compile",
+    "compile": "tsc --sourceMap false --project tsconfig.json",
+    "watch": "tsc -w  --project tsconfig.json",
+    "start": "node .",
+    "dev": "nodemon index.js",
+    "test": " mocha -r ts-node/register tests/**/*Test.ts --exit",
+    "debug": "nodemon --watch dist --debug --debug-brk=5858 index.js",
+    "lint": "tslint --project tsconfig.json --config ../tslint.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "kafkajs": "^1.15.0",
+    "pg": "^8.6.0",
+    "pg-listen": "^1.7.0",
+    "waste-models": "file:../models"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.19",
+    "@types/mocha": "^8.2.2",
+    "@types/node": "^15.12.5",
+    "chai": "^4.3.4",
+    "mocha": "^9.0.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.0.0",
+    "tslint": "^6.1.3",
+    "typescript": "^4.3.4",
+    "typings": "^2.1.1"
+  }
+}
